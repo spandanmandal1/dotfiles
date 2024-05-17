@@ -1,0 +1,21 @@
+# Dir Nav
+alias ll='ls -alF'         # List files with details and indicators
+alias la='ls -A'           # List all files, including hidden ones
+alias l='ls -CF'           # List files in columns
+alias ..='cd ..'          # Go up one directory
+alias ...='cd ../..'      # Go up two directories
+alias ~='cd ~'            # Go to home directory
+
+# yt-dlp
+alias ytvideo="yt-dlp -f bestvideo+bestaudio -o '%(title)s.%(ext)s' --external-downloader=aria2c"
+alias ytaudio="yt-dlp -x -f bestaudio -o '%(title)s.%(ext)s' --external-downloader=aria2c"
+alias ytdl="yt-dlp -f best -o '%(title)s.%(ext)s' --external-downloader=aria2c"
+alias ytplaylist="yt-dlp -f best -o '%(playlist_index)s. %(title)s.%(ext)s' --external-downloader=aria2c"
+
+
+# Misc
+alias grep='grep --color=auto'      # Enable colored output for grep
+alias df='df -h'                    # Human-readable disk usage
+alias du='du -h'                    # Human-readable directory usage
+alias htop='btop'                   # TUI process management
+
