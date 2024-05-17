@@ -13,3 +13,13 @@ then
 	export ZDOTDIR="$XDG_CONFIG_HOME/zsh/"
 fi
 ```
+
+## Pre-Install
+
+- [NerdFonts](https://www.nerdfonts.com/font-downloads) - Font should be **MONO Type** for terminal compatibility
+
+## To change the prompt styles
+
+```bash
+p10k configure
+```
