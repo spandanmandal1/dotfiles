@@ -9,10 +9,15 @@ fi
 [ -f "${ZDOTDIR}/aliasrc" ] && source "${ZDOTDIR}/aliasrc"
 [ -f "${ZDOTDIR}/optionrc" ] && source "${ZDOTDIR}/optionrc"
 
+# Load completions
+autoload -Uz compinit
+compinit -C
+
 # Load plugins if exsits
 source "${ZDOTDIR}/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh"
 source "${ZDOTDIR}/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 source "${ZDOTDIR}/plugins/F-Sy-H/F-Sy-H.plugin.zsh"
+source "${ZDOTDIR}/plugins/fzf-tab/fzf-tab.plugin.zsh"
 
 # End of lines added by compinstall
 source $ZDOTDIR/plugins/powerlevel10k/powerlevel10k.zsh-theme
@@ -20,10 +25,6 @@ source $ZDOTDIR/plugins/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
 #[[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
-
-# Load completions
-autoload -Uz compinit
-compinit -C
 
 # Keybindings
 bindkey -e
@@ -49,7 +50,7 @@ setopt hist_find_no_dups
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu no
+# zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # Shell integrations
