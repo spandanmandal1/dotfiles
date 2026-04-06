@@ -1,21 +1,33 @@
-# Dir Nav
-alias ll='ls -alF'         # List files with details and indicators
-alias la='ls -A'           # List all files, including hidden ones
-alias l='ls -CF'           # List files in columns
-alias ..='cd ..'          # Go up one directory
-alias ...='cd ../..'      # Go up two directories
-alias ~='cd ~'            # Go to home directory
-
-# yt-dlp
-alias ytvideo="yt-dlp -f bestvideo+bestaudio -o '%(title)s.%(ext)s' --external-downloader=aria2c"
-alias ytaudio="yt-dlp -x -f bestaudio -o '%(title)s.%(ext)s' --external-downloader=aria2c"
-alias ytdl="yt-dlp -f best -o '%(title)s.%(ext)s' --external-downloader=aria2c"
-alias ytplaylist="yt-dlp -f best -o '%(playlist_index)s. %(title)s.%(ext)s' --external-downloader=aria2c"
+# 📁 Dir Nav
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ~='cd ~'
 
 
-# Misc
-alias grep='grep --color=auto'      # Enable colored output for grep
-alias df='df -h'                    # Human-readable disk usage
-alias du='du -h'                    # Human-readable directory usage
-alias htop='btop'                   # TUI process management
+# 🎥 yt-dlp
+
+
+# 🔍 System & Network Utilities
+alias ports='ss -tuln'                                                           # List open ports
+alias ipinfo='ip a'                                                              # Show IP addresses
+alias topcpu='ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head'                 # Top CPU processes
+alias meminfo='free -h'                                                          # Memory usage
+alias myip='curl ifconfig.me'                                                    # External IP
+alias logs='journalctl -xe'                                                      # System logs
+alias grep='grep --color=auto'                                                   # Colored grep output
+alias df='df -h'                                                                 # Human-readable disk usage
+alias du='du -h --max-depth=1'                                                   # More useful for directory size checks
+alias mounts='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'                              # Quick view of mounted filesystems
+alias up='uptime -p'                                                             # Show how long the system has been running
+
+
+# 🧪 Tools / Misc
+alias ncmp='ncmpcpp'
+alias serve='python3 -m http.server 8000'                       # Simple HTTP server
+alias copy='xclip -selection clipboard'                         # Copy to clipboard (requires xclip)
+alias screencast='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 -f pulse -i default -c:v libx264 -preset ultrafast -c:a aac ~/Videos/screencast_$(date +"%Y-%m-%d_%H-%M-%S").mp4'
+alias htop='btop'
 
