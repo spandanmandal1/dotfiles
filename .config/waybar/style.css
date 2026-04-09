@@ -48,7 +48,7 @@ tooltip {
 }
 
 #workspaces button.active {
- background-color: @green;
+ background-color: @yellow;
  color: @bg1;
  min-width: 1.5rem;
  font-weight: 500;
