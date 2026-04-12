@@ -1,9 +1,9 @@
-@define-color text		 @fg;
-@define-color background-alt	 @bg1;
-@define-color background	 @bg0;
-@define-color selected		 @green;
-@define-color hover		 alpha(@green, .4);
-@define-color urgent		 @red;
+@define-color text @fg;
+@define-color background-alt @bg1;
+@define-color background @bg0;
+@define-color selected @yellow;
+@define-color hover @bg2;
+@define-color urgent @red;
 
 * {
 
@@ -109,4 +109,3 @@
 .notification.normal progress {
   background-color: @selected;
 }
-
