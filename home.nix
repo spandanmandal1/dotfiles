@@ -33,8 +33,6 @@
     fzf
     jq
     firefox
-    kitty
-    alacritty
     rofi
     waybar
     swaynotificationcenter
@@ -55,44 +53,25 @@
   ##################################################
   # ZSH
   ##################################################
-
+  
   programs.zsh = {
-    enable = true;
-
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-
-    shellAliases = {
-      ll = "ls -lah";
-      gs = "git status";
-      gc = "git commit";
-      gp = "git push";
-      v = "nvim";
-    };
-  };
-
+  enable = true;
+  dotDir = "${config.xdg.configHome}/zsh";
+};
+  
   ##################################################
   # Dotfiles Symlinks
   ##################################################
 
-  home.file.".config/alacritty".source = ./.config/alacritty;
 
   home.file.".config/hypr".source = ./.config/hypr;
-
-  home.file.".config/kitty".source = ./.config/kitty;
-
   home.file.".config/newsboat".source = ./.config/newsboat;
-
   home.file.".config/nvim".source = ./.config/nvim;
-
   home.file.".config/rofi".source = ./.config/rofi;
-
   home.file.".config/swaync".source = ./.config/swaync;
-
   home.file.".config/waybar".source = ./.config/waybar;
-
   home.file.".config/zsh".source = ./.config/zsh;
-
+  home.file.".p10k.zsh".source = ./.config/zsh/.p10k.zsh;
 
   ##################################################
   # Useful Files
