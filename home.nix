@@ -55,9 +55,14 @@
   ##################################################
   
   programs.zsh = {
-  enable = true;
-  dotDir = "${config.xdg.configHome}/zsh";
+    enable = true;
+    dotDir = "${config.xdg.configHome}/zsh";
 };
+
+  home.file.".zshrc".text = ''
+    export ZDOTDIR="$HOME/.config/zsh"
+    source "$ZDOTDIR/.zshrc"
+'';
   
   ##################################################
   # Dotfiles Symlinks
