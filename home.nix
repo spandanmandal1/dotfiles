@@ -77,6 +77,7 @@
   home.file.".config/waybar".source = ./.config/waybar;
   home.file.".config/zsh".source = ./.config/zsh;
   home.file.".p10k.zsh".source = ./.config/zsh/.p10k.zsh;
+  home.file.".config/timelines".source = ./.config/timelines;
 
   ##################################################
   # Useful Files

@@ -1,0 +1,10 @@
+{
+  "homeViewMode": "grid",
+  "theme": "dark",
+  "timelineStorageDir": "",
+  "notesStorageDir": "",
+  "appFontFamily": "Inter",
+  "appFontSize": 14,
+  "hardwareAcceleration": true,
+  "startMaximized": false
+}
