@@ -1,0 +1,40 @@
+-----------------------
+---- LOOK AND FEEL ----
+-----------------------
+
+-- Refer to https://wiki.hypr.land/configuring/core/config-options/
+
+hl.config({
+    general = {
+        gaps_in     = 8,
+        gaps_out    = 12,
+        border_size = 2,
+
+        col = {
+            active_border   = "rgb(d79921)",
+            inactive_border = "rgba(a38e9aaa)",
+        },
+
+        layout        = "master",
+        allow_tearing = false,
+    },
+
+    decoration = {
+        rounding = 4,
+
+        active_opacity   = 1.0,
+        inactive_opacity = 0.95,
+
+        blur = {
+            enabled = true,
+            size    = 4,
+            passes  = 1,
+        },
+
+        shadow = {
+            enabled      = true,
+            range        = 8,
+            render_power = 2,
+        },
+    },
+})
