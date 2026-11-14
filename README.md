@@ -7,14 +7,16 @@ Arch Linux + Hyprland, managed with Nix Home Manager (flake).
 ```
 dotfiles/
 ├── flake.nix            # Home Manager flake (config: spandan), inputs incl. noisy
-├── home.nix             # packages, env vars, symlinks, noisy user service
+├── home.nix             # packages, env vars, symlinks, AppImages, noisy user service
+├── assets/icons/        # launcher icons
 ├── .config/
 │   ├── hypr/            # Hyprland (Lua, 0.57+)
 │   │   ├── hyprland.lua # entry point, requires modules in order
 │   │   └── modules/     # animation, autostart, decoration, env, input,
 │   │                    # keybinding, layout, misc, monitors, permission,
 │   │                    # programs, windowrules
-│   ├── waybar/  rofi/  swaync/  nvim/  zsh/  newsboat/  timelines/
+│   ├── waybar/  rofi/  swaync/  nvim/  zsh/  newsboat/
+│   ├── timelines/       # live-linked (writable); git keeps only settings + timelines/
 │   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
 │   └── alacritty/  kitty/   # not linked in home.nix
 ├── applications/        # .desktop files (not linked in home.nix)
@@ -59,6 +61,12 @@ nix flake update noisy                 # pull latest github:spandanmandal1/noisy
 journalctl --user -u noisy -f          # logs
 systemctl --user stop noisy            # pause until next login/switch
 ```
+
+## AppImages
+
+Declared in `home.nix` (`appimages` at the top): Nix downloads each pinned AppImage (hash-checked) and creates a dGPU launcher (`DRI_PRIME=1`). Icons are in `assets/icons/`. The host needs `fuse2` from its own package manager.
+
+Update one: bump `version` + `url`, set `hash = "";`, run switch, paste the `got:` hash from the error, run switch again.
 
 ## Rollback
 

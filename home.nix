@@ -1,5 +1,36 @@
 { config, pkgs, noisy, ... }:
 
+let
+  # AppImages: pinned + hash-checked by Nix, launched as-is on the host
+  # (host GPU drivers; needs fuse2 from the distro). To update one: bump
+  # version + url, set hash = "", switch, paste the "got:" hash, switch again.
+  appimages = {
+    obsidian = {
+      name = "Obsidian (dGPU)";
+      version = "1.15.1";
+      url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.15.1/Obsidian-1.15.1.AppImage";
+      hash = "sha256-UV/0m7Jj0IhBBprcRgAtrpRWLlBB+3dis6Hct74QpRo=";
+      args = "%u";
+      mimeType = [ "x-scheme-handler/obsidian" ];
+      categories = [ "Office" ];
+    };
+    timelines = {
+      name = "Timelines (dGPU)";
+      version = "0.7.0-alpha.2";
+      url = "https://github.com/sreegjl/timelines/releases/download/v0.7.0-alpha.2/Timelines-0.7.0-alpha.2-Setup.AppImage";
+      hash = "sha256-7cHfNUlgMIrrM1XH/ANZgq89EXph+8hATPuvtpltKtY=";
+      args = "";
+      mimeType = [ ];
+      categories = [ "Utility" ];
+    };
+  };
+
+  # fetchurl output isn't executable; copy it with +x
+  mkAppImage = id: app:
+    pkgs.runCommand "${id}-${app.version}.AppImage" { } ''
+      install -m755 ${pkgs.fetchurl { inherit (app) url hash; }} $out
+    '';
+in
 {
   ##################################################
   # Basic User Info
@@ -77,7 +108,20 @@
   home.file.".config/waybar".source = ./.config/waybar;
   home.file.".config/zsh".source = ./.config/zsh;
   home.file.".p10k.zsh".source = ./.config/zsh/.p10k.zsh;
-  home.file.".config/timelines".source = ./.config/timelines;
+  # live link (not the read-only store): the app writes here; .gitignore keeps only settings + timelines
+  home.file.".config/timelines".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/timelines";
+
+  ##################################################
+  # AppImages (see `appimages` at the top)
+  ##################################################
+
+  xdg.desktopEntries = builtins.mapAttrs (id: app: {
+    inherit (app) name mimeType categories;
+    exec = "env DRI_PRIME=1 ${mkAppImage id app} ${app.args}";
+    icon = ./assets/icons/${id}.png;
+    terminal = false;
+  }) appimages;
 
   ##################################################
   # Useful Files

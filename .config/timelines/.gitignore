@@ -1,0 +1,5 @@
+# Only keep settings and the timelines themselves; the rest is Electron runtime state
+/*
+!/.gitignore
+!/app-settings.json
+!/timelines/
