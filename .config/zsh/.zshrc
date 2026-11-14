@@ -12,8 +12,13 @@ fi
 [ -f "${ZDOTDIR}/optionrc" ] && source "${ZDOTDIR}/optionrc"
 
 # Load completions
+# Completion files for Nix-installed tools (pass, kubectl, gh, ...)
+fpath=("$HOME/.nix-profile/share/zsh/site-functions" $fpath)
+# Dump lives in the cache: ZDOTDIR is a read-only Nix store link.
+# No -C, so the dump is rebuilt when completion files are added or removed.
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 autoload -Uz compinit
-compinit -C
+compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 
 # Load plugins if exsits
 source "${ZDOTDIR}/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh"
