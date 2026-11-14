@@ -1,4 +1,4 @@
-{ config, pkgs, noisy, ranger-devicons, ... }:
+{ config, pkgs, noisy, ranger-devicons, catppuccin-btop, ... }:
 
 let
   # AppImages: pinned + hash-checked by Nix, launched as-is on the host
@@ -69,6 +69,13 @@ in
     swaynotificationcenter
     newsboat
     zsh
+    ranger
+
+    # pygmentize with Catppuccin styles, for ranger's code previews.
+    # Wrapped so only `pygmentize` lands on PATH (not a second python3).
+    (pkgs.writeShellScriptBin "pygmentize" ''
+      exec ${pkgs.python3.withPackages (ps: [ ps.pygments ps.catppuccin ])}/bin/pygmentize "$@"
+    '')
   ];
 
   ##################################################
@@ -79,8 +86,9 @@ in
     EDITOR = "nvim";
     TERMINAL = "alacritty";
     BROWSER = "firefox";
-    # ranger previews code with pygmentize; its default "autumn" is a light theme (dark blue is unreadable here)
-    PYGMENTIZE_STYLE = "dracula";
+    # ranger previews code with pygmentize; its default "autumn" is a light theme (dark blue is unreadable here).
+    # catppuccin-mocha matches the Alacritty palette; the style comes from the pygmentize package above.
+    PYGMENTIZE_STYLE = "catppuccin-mocha";
   };
 
   ##################################################
@@ -115,6 +123,11 @@ in
   home.file.".config/ranger/rc.conf".source = ./.config/ranger/rc.conf;
   home.file.".config/ranger/plugins/__init__.py".text = "";
   home.file.".config/ranger/plugins/ranger_devicons".source = ranger-devicons;  # flake input
+
+  # btop rewrites btop.conf on exit, so it is live-linked (writable); the theme is a flake input
+  home.file.".config/btop/btop.conf".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/btop/btop.conf";
+  home.file.".config/btop/themes/catppuccin_mocha.theme".source = "${catppuccin-btop}/themes/catppuccin_mocha.theme";
 
   home.file.".config/timelines".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/timelines";

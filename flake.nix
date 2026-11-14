@@ -18,10 +18,15 @@
       url = "github:alexanderjeurissen/ranger_devicons";
       flake = false;
     };
+    # Catppuccin btop themes (plain repo); update with: nix flake update catppuccin-btop
+    catppuccin-btop = {
+      url = "github:catppuccin/btop";
+      flake = false;
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, noisy, ranger-devicons, ... }:
+    { nixpkgs, home-manager, noisy, ranger-devicons, catppuccin-btop, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -35,7 +40,7 @@
         modules = [ ./home.nix ];
 
         # Pass flake inputs through to the modules
-        extraSpecialArgs = { inherit noisy ranger-devicons; };
+        extraSpecialArgs = { inherit noisy ranger-devicons catppuccin-btop; };
       };
     };
 }

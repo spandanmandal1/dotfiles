@@ -6,7 +6,7 @@ Arch Linux + Hyprland, managed with Nix Home Manager (flake).
 
 ```
 dotfiles/
-├── flake.nix            # Home Manager flake (config: spandan), inputs incl. noisy, ranger-devicons
+├── flake.nix            # Home Manager flake (config: spandan), inputs incl. noisy, ranger-devicons, catppuccin-btop
 ├── home.nix             # packages, env vars, symlinks, AppImages, noisy user service
 ├── assets/icons/        # launcher icons
 ├── update-appimages.sh  # bumps AppImage versions (monthly timer)
@@ -18,6 +18,7 @@ dotfiles/
 │   │                    # programs, windowrules
 │   ├── waybar/  rofi/  swaync/  nvim/  zsh/  newsboat/  alacritty/
 │   ├── ranger/          # rc.conf only; devicons plugin comes from the flake input
+│   ├── btop/            # btop.conf, live-linked (btop rewrites it on exit); theme from the flake input
 │   ├── timelines/       # live-linked (writable); git keeps only settings + timelines/
 │   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
 │   └── kitty/           # not linked in home.nix
@@ -33,16 +34,28 @@ git add -A                                         # flakes ignore untracked fil
 home-manager switch --flake "$HOME/dotfiles#spandan"
 ```
 
-`~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exception: `timelines`, which is live-linked; see AppImages.)
+`~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exceptions: `timelines` and `btop/btop.conf`, which are live-linked so the apps can write them; edits through `~/.config` land in this repo.)
 
 Keep Home Manager config in `home.nix` (one `####` section per topic). Don't split it into extra `.nix` modules.
 
-## Shell environment
+## Shell environment and colors
 
-`home.sessionVariables` in `home.nix` reach zsh through `.config/zsh/.zshenv`, which sources `hm-session-vars.sh`. Open a new terminal after a switch to pick up changes. `PYGMENTIZE_STYLE=dracula` is set there so ranger's code previews are readable (pygmentize's default `autumn` is a light theme and its dark blue disappears on this dark terminal).
+`home.sessionVariables` in `home.nix` reach zsh through `.config/zsh/.zshenv`, which sources `hm-session-vars.sh`. Open a new terminal after a switch to pick up changes.
+
+Everything uses **Catppuccin Mocha**:
+
+| What | Where the colors come from |
+|---|---|
+| Terminal, shell and most TUIs (ls, git, fzf, newsboat, ranger's file list) | Alacritty palette in `.config/alacritty/alacritty.toml` |
+| ranger code previews | `PYGMENTIZE_STYLE=catppuccin-mocha` (pygmentize's default `autumn` is a light theme; its dark blue disappears here) |
+| btop | `color_theme = "catppuccin_mocha"`, theme file from the `catppuccin-btop` flake input |
+| neovim | `catppuccin/nvim` plugin |
+
+ranger and pygmentize come from Nix (`home.packages`), so they work on any distro. pygmentize is wrapped so it includes the Catppuccin styles and only `pygmentize` (not a second `python3`) lands on PATH. `~/.nix-profile/bin` comes before `/usr/bin`, so the pacman `ranger` / `python-pygments` packages aren't needed.
 
 ```bash
 nix flake update ranger-devicons       # update the ranger icons plugin, then switch
+nix flake update catppuccin-btop       # update the btop theme, then switch
 ```
 
 ## Hyprland
