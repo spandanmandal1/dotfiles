@@ -10,6 +10,7 @@ dotfiles/
 ├── home.nix             # packages, env vars, symlinks, AppImages, noisy user service
 ├── assets/icons/        # launcher icons
 ├── update-appimages.sh  # bumps AppImage versions (monthly timer)
+├── check.sh             # checks config before switching (run by the `hms` alias)
 ├── .config/
 │   ├── hypr/            # Hyprland (Lua, 0.57+)
 │   │   ├── hyprland.lua # entry point, requires modules in order
@@ -31,8 +32,19 @@ dotfiles/
 ```bash
 cd ~/dotfiles
 git add -A                                         # flakes ignore untracked files
-home-manager switch --flake "$HOME/dotfiles#spandan"
+hms                                                # check, then switch
 ```
+
+`hms` (alias in `.config/zsh/aliasrc`) runs `./check.sh` and only runs `home-manager switch --flake "$HOME/dotfiles#spandan"` if every check passes. `home-manager switch` on its own only catches `home.nix` mistakes; a broken Hyprland or zsh file would still be switched in. `check.sh` changes nothing and can be run on its own:
+
+| Check | Catches |
+|---|---|
+| `home-manager build` | `home.nix` errors, bad hashes, missing files (builds, doesn't activate) |
+| `Hyprland --verify-config` on the repo's `hyprland.lua` | Lua errors in the Hyprland config |
+| `zsh -n` on `.zshrc`, `.zshenv`, `aliasrc`, `optionrc` | zsh syntax errors |
+| `bash -n update-appimages.sh` | syntax errors in the updater |
+
+A failed check prints `FAIL` with the error and nothing is switched. Plain `home-manager switch` still works if you need to skip the checks.
 
 `~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exceptions: `timelines` and `btop/btop.conf`, which are live-linked so the apps can write them; edits through `~/.config` land in this repo.)
 

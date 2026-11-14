@@ -32,3 +32,13 @@ alias copy='wl-copy'                                            # Copy to clipbo
 alias screencast='wf-recorder --audio -f ~/Videos/screencast_$(date +"%Y-%m-%d_%H-%M-%S").mp4'   # Record screen + mic, Ctrl+C to stop
 alias htop='btop'
 
+
+# 🏠 Dotfiles
+# hms = check, then home-manager switch. Use it instead of plain `home-manager switch`.
+# What: runs ~/dotfiles/check.sh (home.nix build, Hyprland config, zsh files, update script)
+#       and switches only if every check passes.
+# Why:  `home-manager switch` only catches home.nix mistakes. A broken Hyprland or zsh file
+#       still gets switched in, and you only find out when Hyprland reloads with errors or
+#       a new terminal breaks. hms stops before that, so nothing changes until it's fixed.
+alias hms='~/dotfiles/check.sh && home-manager switch --flake "$HOME/dotfiles#spandan"'
+
