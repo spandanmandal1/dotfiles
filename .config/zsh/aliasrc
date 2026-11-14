@@ -19,7 +19,8 @@ alias myip='curl ifconfig.me'                                                   
 alias logs='journalctl -xe'                                                      # System logs
 alias grep='grep --color=auto'                                                   # Colored grep output
 alias df='df -h'                                                                 # Human-readable disk usage
-alias du='du -h --max-depth=1'                                                   # More useful for directory size checks
+alias du='du -h'                                                                 # Human-readable sizes (du -sh still works)
+alias dud='du -h --max-depth=1'                                                  # Sizes of folders one level down
 alias mounts='lsblk -o NAME,FSTYPE,SIZE,MOUNTPOINT'                              # Quick view of mounted filesystems
 alias up='uptime -p'                                                             # Show how long the system has been running
 
