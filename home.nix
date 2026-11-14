@@ -67,7 +67,7 @@ in
     waybar
     swaynotificationcenter
     newsboat
-    zsh
+    zsh               # `zsh` on PATH only; login shell is pacman's /usr/bin/zsh (see README)
     ranger
 
     # CLI tools moved from pacman (2026-11-14). Kept on pacman: hyprshot (Nix build
@@ -99,7 +99,6 @@ in
     cliphist
     wl-clip-persist
     wf-recorder
-    xclip
     wmctrl
     awww              # wallpaper daemon (formerly swww)
     udiskie
@@ -152,7 +151,6 @@ in
   home.file.".config/waybar".source = ./.config/waybar;
   home.file.".config/zsh".source = ./.config/zsh;
   home.file.".p10k.zsh".source = ./.config/zsh/.p10k.zsh;
-  # live link (not the read-only store): the app writes here; .gitignore keeps only settings + timelines
   home.file.".config/alacritty".source = ./.config/alacritty;
   home.file.".config/ranger/rc.conf".source = ./.config/ranger/rc.conf;
   home.file.".config/ranger/plugins/__init__.py".text = "";
@@ -163,6 +161,7 @@ in
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/btop/btop.conf";
   home.file.".config/btop/themes/catppuccin_mocha.theme".source = "${catppuccin-btop}/themes/catppuccin_mocha.theme";
 
+  # live link (not the read-only store): the app writes here; .gitignore keeps only settings + timelines
   home.file.".config/timelines".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/timelines";
 
