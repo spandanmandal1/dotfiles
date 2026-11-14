@@ -75,6 +75,12 @@ journalctl --user -u appimage-update       # logs
 systemctl --user list-timers appimage-update
 ```
 
+On a new machine, the first `home-manager switch` sets up the timer (a systemd user timer, not cron). It needs:
+
+- the repo cloned at `~/dotfiles` (the timer runs the script from there)
+- a systemd distro (Arch, Fedora, Debian, Ubuntu, openSUSE…). Without systemd (Void, Alpine, Artix) the timer doesn't run, so run `./update-appimages.sh` by hand or from cron
+- an SSH key that GitLab accepts, so it can push. Without one it still updates the machine and notifies you that the push failed.
+
 ## Rollback
 
 ```bash
