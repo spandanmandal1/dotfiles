@@ -6,8 +6,8 @@ Arch Linux + Hyprland, managed with Nix Home Manager (flake).
 
 ```
 dotfiles/
-├── flake.nix            # Home Manager flake (config: spandan)
-├── home.nix             # packages, env vars, symlinks
+├── flake.nix            # Home Manager flake (config: spandan), inputs incl. noisy
+├── home.nix             # packages, env vars, symlinks, noisy user service
 ├── .config/
 │   ├── hypr/            # Hyprland (Lua, 0.57+)
 │   │   ├── hyprland.lua # entry point, requires modules in order
@@ -15,6 +15,7 @@ dotfiles/
 │   │                    # keybinding, layout, misc, monitors, permission,
 │   │                    # programs, windowrules
 │   ├── waybar/  rofi/  swaync/  nvim/  zsh/  newsboat/  timelines/
+│   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
 │   └── alacritty/  kitty/   # not linked in home.nix
 ├── applications/        # .desktop files (not linked in home.nix)
 └── .local/
@@ -48,6 +49,16 @@ sudo pacman -Syu        # upgrades hyprland + its libs together
 ```
 
 Use official repos, not AUR, for hyprland, aquamarine, hyprgraphics, hyprtoolkit, hyprland-guiutils.
+
+## noisy
+
+Background traffic noise, run as a user service (`systemd.user.services.noisy` in `home.nix`).
+
+```bash
+nix flake update noisy                 # pull latest github:spandanmandal1/noisy, then switch
+journalctl --user -u noisy -f          # logs
+systemctl --user stop noisy            # pause until next login/switch
+```
 
 ## Rollback
 

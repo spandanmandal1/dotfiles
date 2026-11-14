@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, noisy, ... }:
 
 {
   ##################################################
@@ -84,5 +84,23 @@
   ##################################################
 
   home.file.".hushlogin".text = "";
+
+  ##################################################
+  # noisy (background HTTP/DNS traffic noise)
+  ##################################################
+  # script: flake input `noisy`, update with: nix flake update noisy
+  # config: ./.config/noisy/config.json
+  # logs:   journalctl --user -u noisy -f
+
+  systemd.user.services.noisy = {
+    Unit.Description = "noisy traffic generator";
+    Service = {
+      ExecStart = "${pkgs.python3.withPackages (ps: [ ps.requests ])}/bin/python3 ${noisy}/noisy.py --config ${./.config/noisy/config.json} --dns-lookups 3 --log warning";
+      Restart = "on-failure";
+      RestartSec = 60;
+      Nice = 10;
+    };
+    Install.WantedBy = [ "default.target" ];
+  };
 
 }

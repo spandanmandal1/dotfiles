@@ -36,10 +36,27 @@
         "type": "github"
       }
     },
+    "noisy": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794630729,
+        "narHash": "sha256-olheTt2r+H8iHwCK6SFwQreDBqxzuq2V+WfLj5HCVXk=",
+        "owner": "spandanmandal1",
+        "repo": "noisy",
+        "rev": "00dc6a39a7d7354031907fd1d7071c77e2c0d1da",
+        "type": "github"
+      },
+      "original": {
+        "owner": "spandanmandal1",
+        "repo": "noisy",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "noisy": "noisy"
       }
     }
   },
