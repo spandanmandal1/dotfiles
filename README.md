@@ -32,7 +32,9 @@ git add -A                                         # flakes ignore untracked fil
 home-manager switch --flake "$HOME/dotfiles#spandan"
 ```
 
-`~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`.
+`~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exception: `timelines`, which is live-linked; see AppImages.)
+
+Keep Home Manager config in `home.nix` (one `####` section per topic). Don't split it into extra `.nix` modules.
 
 ## Hyprland
 
@@ -80,6 +82,23 @@ On a new machine, the first `home-manager switch` sets up the timer (a systemd u
 - the repo cloned at `~/dotfiles` (the timer runs the script from there)
 - a systemd distro (Arch, Fedora, Debian, Ubuntu, openSUSE…). Without systemd (Void, Alpine, Artix) the timer doesn't run, so run `./update-appimages.sh` by hand or from cron
 - an SSH key that GitLab accepts, so it can push. Without one it still updates the machine and notifies you that the push failed.
+
+Add an AppImage: add an entry to `appimages` in `home.nix`, an icon at `assets/icons/<id>.png`, and a line to `APPS` in `update-appimages.sh`.
+
+Why it's set up this way:
+
+- **Raw AppImages, not nixpkgs / `appimageTools`.** Outside NixOS those use Nix's Mesa and need nixGL, which breaks the `DRI_PRIME=1` dGPU launchers. A raw AppImage uses the host's GPU drivers.
+- **Pinned version + hash.** Nix needs the hash before downloading, and pinning makes every machine get the same file. The script handles the "find the newest" part.
+- **Timelines runs one release behind (N-1).** It's alpha software, so a new release gets time to settle first. Its built-in updater can't replace the read-only store file, so updates only come through the script.
+- **Obsidian uses latest.** It updates itself inside `~/.config/obsidian`, so the pinned installer version barely matters.
+- **Monthly, not weekly.** That's often enough. The script pulls first and won't run on uncommitted changes, so two machines don't push the same bump.
+- **`.config/timelines` is live-linked** (`mkOutOfStoreSymlink`, not the store) because the app writes there. Its `.gitignore` keeps only `app-settings.json` and `timelines/` (the actual timelines); the rest is Electron cache, cookies and storage.
+
+## GitHub mirror
+
+GitLab (`origin`) push-mirrors to `github.com/spandanmandal1/dotfiles` over SSH, using a GitHub deploy key named "GitLab push mirror" (write access). It used to use a GitHub token, which expired and silently stopped the sync.
+
+If GitHub falls behind, check GitLab → Settings → Repository → Mirroring repositories (the page can show a stale "Updating"; the API `/api/v4/projects/spandanmandal%2Fdotfiles/remote_mirrors` has the real status). A push right after another sync can wait ~5–10 min for GitLab's mirror interval. GitLab `main` is protected (no force-push); GitHub `main` is not.
 
 ## Rollback
 
