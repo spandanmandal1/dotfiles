@@ -9,6 +9,7 @@ dotfiles/
 ├── flake.nix            # Home Manager flake (config: spandan), inputs incl. noisy
 ├── home.nix             # packages, env vars, symlinks, AppImages, noisy user service
 ├── assets/icons/        # launcher icons
+├── update-appimages.sh  # bumps AppImage versions (monthly timer)
 ├── .config/
 │   ├── hypr/            # Hyprland (Lua, 0.57+)
 │   │   ├── hyprland.lua # entry point, requires modules in order
@@ -66,7 +67,13 @@ systemctl --user stop noisy            # pause until next login/switch
 
 Declared in `home.nix` (`appimages` at the top): Nix downloads each pinned AppImage (hash-checked) and creates a dGPU launcher (`DRI_PRIME=1`). Icons are in `assets/icons/`. The host needs `fuse2` from its own package manager.
 
-Update one: bump `version` + `url`, set `hash = "";`, run switch, paste the `got:` hash from the error, run switch again.
+Updates: a monthly timer runs `./update-appimages.sh` (Obsidian → latest release, Timelines → second-newest, incl. pre-releases). It bumps `home.nix`, switches, commits and pushes, then sends a notification. It skips the run if the repo has uncommitted changes.
+
+```bash
+./update-appimages.sh                      # run now (or: systemctl --user start appimage-update)
+journalctl --user -u appimage-update       # logs
+systemctl --user list-timers appimage-update
+```
 
 ## Rollback
 
