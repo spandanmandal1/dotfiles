@@ -1,18 +1,17 @@
 export ZDOTDIR="$HOME/.config/zsh"
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config//zsh//.zshrc.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of this file.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Load alias,options if exsits
+# Load aliases and options if they exist
 [ -f "${ZDOTDIR}/aliasrc" ] && source "${ZDOTDIR}/aliasrc"
 [ -f "${ZDOTDIR}/optionrc" ] && source "${ZDOTDIR}/optionrc"
 
-# Load completions
-# Completion files for Nix-installed tools (pass, kubectl, gh, ...)
+# Completions: include files for Nix-installed tools (pass, kubectl, gh, ...)
 fpath=("$HOME/.nix-profile/share/zsh/site-functions" $fpath)
 # Dump lives in the cache: ZDOTDIR is a read-only Nix store link.
 # No -C, so the dump is rebuilt when completion files are added or removed.
@@ -27,12 +26,12 @@ source "$plugins/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
 source "$plugins/zsh/site-functions/F-Sy-H.plugin.zsh"
 source "$plugins/fzf-tab/fzf-tab.plugin.zsh"
 
-# End of lines added by compinstall
+# Prompt theme (powerlevel10k, also from Nix)
 source "$plugins/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
 unset plugins
 
-# To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
-#[[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
+# Prompt settings. To customize: edit .config/zsh/.p10k.zsh in the dotfiles repo
+# (`p10k configure` can't write here, ~/.config/zsh is read-only).
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 # Keybindings
@@ -66,13 +65,9 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 eval "$(fzf --zsh)"
 bindkey '^R' fzf-history-widget
 
-# The following lines were added by compinstall
-# zstyle :compinstall filename '/home/spandan/.zshrc'
-
 # Open buffer line in editor
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^x^e' edit-command-line
-
 
 export PATH="$HOME/.local/bin:$PATH"
