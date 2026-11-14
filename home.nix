@@ -71,8 +71,7 @@ in
     ranger
 
     # CLI tools moved from pacman (2026-11-14). Kept on pacman: hyprshot (Nix build
-    # bundles its own Hyprland), nodejs/npm (npm -g can't write to the Nix store),
-    # and anything not open source (e.g. terraform).
+    # bundles its own Hyprland), nodejs/npm (npm -g can't write to the Nix store).
     aria2
     dig               # pacman: bind
     figlet
