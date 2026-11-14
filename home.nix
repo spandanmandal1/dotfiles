@@ -70,6 +70,43 @@ in
     zsh
     ranger
 
+    # CLI tools moved from pacman (2026-11-14). Kept on pacman: hyprshot (Nix build
+    # bundles its own Hyprland), nodejs/npm (npm -g can't write to the Nix store),
+    # and anything not open source (e.g. terraform).
+    aria2
+    dig               # pacman: bind
+    figlet
+    gh                # pacman: github-cli
+    glab
+    go
+    kubernetes-helm   # pacman: helm
+    hugo
+    kubeconform
+    kubectl
+    minikube
+    lftp
+    mpc
+    ncmpcpp
+    pandoc            # pacman: pandoc-cli
+    pass
+    exiftool          # pacman: perl-image-exiftool
+    rclone
+    rsync
+    tldr
+    uv
+    yq                # python yq (jq wrapper), same as Arch's
+    yt-dlp
+    img2pdf
+    cliphist
+    wl-clip-persist
+    wf-recorder
+    xclip
+    wmctrl
+    awww              # wallpaper daemon (formerly swww)
+    udiskie
+    sxiv
+    zathura
+
     # pygmentize with Catppuccin styles, for ranger's code previews.
     # Wrapped so only `pygmentize` lands on PATH (not a second python3).
     (pkgs.writeShellScriptBin "pygmentize" ''

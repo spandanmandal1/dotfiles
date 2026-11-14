@@ -57,6 +57,19 @@ nix flake update ranger-devicons       # update the ranger icons plugin, then sw
 nix flake update catppuccin-btop       # update the btop theme, then switch
 ```
 
+## Packages: Nix vs pacman
+
+Command-line tools come from Nix (`home.packages` in `home.nix`), so they work on any distro. These stay on pacman:
+
+- kernel, drivers, firmware, boot, and root/system services (NetworkManager, bluez, pipewire, docker, sddm, tlp, cups)
+- Hyprland and its packages (see Updates), plus `hyprshot`, whose Nix build bundles its own Hyprland
+- GUI apps that need GPU acceleration (from Nix on Arch they'd need nixGL)
+- anything not open source (e.g. terraform)
+- `nodejs`/`npm` (with Nix, `npm install -g` can't write to the store)
+- `zsh` (login shell and terminals use `/usr/bin/zsh`)
+
+After moving a tool to Nix, the pacman copy can be removed with `sudo pacman -Rs <name>`.
+
 ## Hyprland
 
 ```bash
