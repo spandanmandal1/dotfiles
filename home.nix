@@ -147,4 +147,32 @@ in
     Install.WantedBy = [ "default.target" ];
   };
 
+  ##################################################
+  # AppImage updates (monthly)
+  ##################################################
+  # runs ./update-appimages.sh: bumps versions in this file, switches, commits, pushes
+  # run now: systemctl --user start appimage-update
+  # logs:    journalctl --user -u appimage-update
+
+  systemd.user.services.appimage-update = {
+    Unit.Description = "Update pinned AppImages in dotfiles";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash ${config.home.homeDirectory}/dotfiles/update-appimages.sh";
+      Environment = [
+        "PATH=${pkgs.lib.makeBinPath (with pkgs; [ git openssh curl jq gawk gnused coreutils libnotify ])}:${config.home.homeDirectory}/.nix-profile/bin:/nix/var/nix/profiles/default/bin"
+      ];
+    };
+  };
+
+  systemd.user.timers.appimage-update = {
+    Unit.Description = "Monthly AppImage update check";
+    Timer = {
+      OnCalendar = "monthly";
+      Persistent = true;          # run at next login if the PC was off
+      RandomizedDelaySec = "1h";
+    };
+    Install.WantedBy = [ "timers.target" ];
+  };
+
 }
