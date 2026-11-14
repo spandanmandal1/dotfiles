@@ -70,6 +70,13 @@ in
     zsh               # `zsh` on PATH only; login shell is pacman's /usr/bin/zsh (see README)
     ranger
 
+    # zsh plugins (sourced in .config/zsh/.zshrc from ~/.nix-profile/share)
+    zsh-powerlevel10k
+    zsh-autosuggestions
+    zsh-history-substring-search
+    zsh-fzf-tab
+    zsh-f-sy-h
+
     # CLI tools moved from pacman (2026-11-14). Kept on pacman: hyprshot (Nix build
     # bundles its own Hyprland), nodejs/npm (npm -g can't write to the Nix store).
     aria2

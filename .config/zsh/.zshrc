@@ -20,14 +20,16 @@ mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 autoload -Uz compinit
 compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
 
-# Load plugins if exsits
-source "${ZDOTDIR}/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh"
-source "${ZDOTDIR}/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
-source "${ZDOTDIR}/plugins/F-Sy-H/F-Sy-H.plugin.zsh"
-source "${ZDOTDIR}/plugins/fzf-tab/fzf-tab.plugin.zsh"
+# Plugins come from Nix (home.packages in home.nix)
+plugins="$HOME/.nix-profile/share"
+source "$plugins/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.plugin.zsh"
+source "$plugins/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh"
+source "$plugins/zsh/site-functions/F-Sy-H.plugin.zsh"
+source "$plugins/fzf-tab/fzf-tab.plugin.zsh"
 
 # End of lines added by compinstall
-source $ZDOTDIR/plugins/powerlevel10k/powerlevel10k.zsh-theme
+source "$plugins/zsh/themes/powerlevel10k/powerlevel10k.zsh-theme"
+unset plugins
 
 # To customize prompt, run `p10k configure` or edit ~/.config//zsh//.p10k.zsh.
 #[[ ! -f ~/.config//zsh//.p10k.zsh ]] || source ~/.config//zsh//.p10k.zsh
