@@ -6,7 +6,7 @@ Arch Linux + Hyprland, managed with Nix Home Manager (flake).
 
 ```
 dotfiles/
-├── flake.nix            # Home Manager flake (config: spandan), inputs incl. noisy
+├── flake.nix            # Home Manager flake (config: spandan), inputs incl. noisy, ranger-devicons
 ├── home.nix             # packages, env vars, symlinks, AppImages, noisy user service
 ├── assets/icons/        # launcher icons
 ├── update-appimages.sh  # bumps AppImage versions (monthly timer)
@@ -16,10 +16,11 @@ dotfiles/
 │   │   └── modules/     # animation, autostart, decoration, env, input,
 │   │                    # keybinding, layout, misc, monitors, permission,
 │   │                    # programs, windowrules
-│   ├── waybar/  rofi/  swaync/  nvim/  zsh/  newsboat/
+│   ├── waybar/  rofi/  swaync/  nvim/  zsh/  newsboat/  alacritty/
+│   ├── ranger/          # rc.conf only; devicons plugin comes from the flake input
 │   ├── timelines/       # live-linked (writable); git keeps only settings + timelines/
 │   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
-│   └── alacritty/  kitty/   # not linked in home.nix
+│   └── kitty/           # not linked in home.nix
 ├── applications/        # .desktop files (not linked in home.nix)
 └── .local/
 ```
@@ -35,6 +36,14 @@ home-manager switch --flake "$HOME/dotfiles#spandan"
 `~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exception: `timelines`, which is live-linked; see AppImages.)
 
 Keep Home Manager config in `home.nix` (one `####` section per topic). Don't split it into extra `.nix` modules.
+
+## Shell environment
+
+`home.sessionVariables` in `home.nix` reach zsh through `.config/zsh/.zshenv`, which sources `hm-session-vars.sh`. Open a new terminal after a switch to pick up changes. `PYGMENTIZE_STYLE=dracula` is set there so ranger's code previews are readable (pygmentize's default `autumn` is a light theme and its dark blue disappears on this dark terminal).
+
+```bash
+nix flake update ranger-devicons       # update the ranger icons plugin, then switch
+```
 
 ## Hyprland
 

@@ -1,4 +1,4 @@
-{ config, pkgs, noisy, ... }:
+{ config, pkgs, noisy, ranger-devicons, ... }:
 
 let
   # AppImages: pinned + hash-checked by Nix, launched as-is on the host
@@ -111,6 +111,11 @@ in
   home.file.".config/zsh".source = ./.config/zsh;
   home.file.".p10k.zsh".source = ./.config/zsh/.p10k.zsh;
   # live link (not the read-only store): the app writes here; .gitignore keeps only settings + timelines
+  home.file.".config/alacritty".source = ./.config/alacritty;
+  home.file.".config/ranger/rc.conf".source = ./.config/ranger/rc.conf;
+  home.file.".config/ranger/plugins/__init__.py".text = "";
+  home.file.".config/ranger/plugins/ranger_devicons".source = ranger-devicons;  # flake input
+
   home.file.".config/timelines".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/timelines";
 

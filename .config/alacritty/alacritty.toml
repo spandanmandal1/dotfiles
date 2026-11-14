@@ -116,3 +116,8 @@ background = "#A6ADC8"
 [colors.vi_mode_cursor]
 text = "#1E1E2E"
 cursor = "#B4BEFE"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

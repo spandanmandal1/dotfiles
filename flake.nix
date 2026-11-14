@@ -13,10 +13,15 @@
       url = "github:spandanmandal1/noisy";
       flake = false;
     };
+    # ranger file icons plugin (plain repo); update with: nix flake update ranger-devicons
+    ranger-devicons = {
+      url = "github:alexanderjeurissen/ranger_devicons";
+      flake = false;
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, noisy, ... }:
+    { nixpkgs, home-manager, noisy, ranger-devicons, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -30,7 +35,7 @@
         modules = [ ./home.nix ];
 
         # Pass flake inputs through to the modules
-        extraSpecialArgs = { inherit noisy; };
+        extraSpecialArgs = { inherit noisy ranger-devicons; };
       };
     };
 }
