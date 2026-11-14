@@ -28,7 +28,7 @@ alias up='uptime -p'                                                            
 # 🧪 Tools / Misc
 alias ncmp='ncmpcpp'
 alias serve='python3 -m http.server 8000'                       # Simple HTTP server
-alias copy='xclip -selection clipboard'                         # Copy to clipboard (requires xclip)
-alias screencast='ffmpeg -video_size 1920x1080 -framerate 30 -f x11grab -i :0.0 -f pulse -i default -c:v libx264 -preset ultrafast -c:a aac ~/Videos/screencast_$(date +"%Y-%m-%d_%H-%M-%S").mp4'
+alias copy='wl-copy'                                            # Copy to clipboard (Wayland)
+alias screencast='wf-recorder --audio -f ~/Videos/screencast_$(date +"%Y-%m-%d_%H-%M-%S").mp4'   # Record screen + mic, Ctrl+C to stop
 alias htop='btop'
 
