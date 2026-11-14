@@ -79,6 +79,8 @@ in
     EDITOR = "nvim";
     TERMINAL = "alacritty";
     BROWSER = "firefox";
+    # ranger previews code with pygmentize; its default "autumn" is a light theme (dark blue is unreadable here)
+    PYGMENTIZE_STYLE = "dracula";
   };
 
   ##################################################
