@@ -31,7 +31,7 @@ dotfiles/
 
 ```bash
 cd ~/dotfiles
-git add -A                                         # flakes ignore untracked files
+git add -N .                                       # only after creating new files: lets the flake see them (stages nothing)
 hms                                                # check, then switch
 ```
 
