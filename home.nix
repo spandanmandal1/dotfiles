@@ -54,7 +54,6 @@ in
 
   home.packages = with pkgs; [
     git
-    neovim
     vim
     wget
     curl
@@ -83,7 +82,7 @@ in
   ##################################################
 
   home.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "vim";
     TERMINAL = "alacritty";
     BROWSER = "firefox";
     # ranger previews code with pygmentize; its default "autumn" is a light theme (dark blue is unreadable here).
@@ -112,7 +111,6 @@ in
 
   home.file.".config/hypr".source = ./.config/hypr;
   home.file.".config/newsboat".source = ./.config/newsboat;
-  home.file.".config/nvim".source = ./.config/nvim;
   home.file.".config/rofi".source = ./.config/rofi;
   home.file.".config/swaync".source = ./.config/swaync;
   home.file.".config/waybar".source = ./.config/waybar;

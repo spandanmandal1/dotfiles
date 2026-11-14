@@ -16,7 +16,7 @@ dotfiles/
 │   │   └── modules/     # animation, autostart, decoration, env, input,
 │   │                    # keybinding, layout, misc, monitors, permission,
 │   │                    # programs, windowrules
-│   ├── waybar/  rofi/  swaync/  nvim/  zsh/  newsboat/  alacritty/
+│   ├── waybar/  rofi/  swaync/  zsh/  newsboat/  alacritty/
 │   ├── ranger/          # rc.conf only; devicons plugin comes from the flake input
 │   ├── btop/            # btop.conf, live-linked (btop rewrites it on exit); theme from the flake input
 │   ├── timelines/       # live-linked (writable); git keeps only settings + timelines/
@@ -49,7 +49,6 @@ Everything uses **Catppuccin Mocha**:
 | Terminal, shell and most TUIs (ls, git, fzf, newsboat, ranger's file list) | Alacritty palette in `.config/alacritty/alacritty.toml` |
 | ranger code previews | `PYGMENTIZE_STYLE=catppuccin-mocha` (pygmentize's default `autumn` is a light theme; its dark blue disappears here) |
 | btop | `color_theme = "catppuccin_mocha"`, theme file from the `catppuccin-btop` flake input |
-| neovim | `catppuccin/nvim` plugin |
 
 ranger and pygmentize come from Nix (`home.packages`), so they work on any distro. pygmentize is wrapped so it includes the Catppuccin styles and only `pygmentize` (not a second `python3`) lands on PATH. `~/.nix-profile/bin` comes before `/usr/bin`, so the pacman `ranger` / `python-pygments` packages aren't needed.
 
