@@ -24,7 +24,7 @@ dotfiles/
 │   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
 │   └── kitty/           # not linked in home.nix
 ├── applications/        # .desktop files (not linked in home.nix)
-└── .local/
+└── .local/share/        # Gruvbox GTK theme + Google Sans Flex, packaged by home.nix
 ```
 
 ## Apply changes
@@ -56,7 +56,7 @@ Keep Home Manager config in `home.nix` (one `####` section per topic). Don't spl
 
 zsh plugins (powerlevel10k, zsh-autosuggestions, zsh-history-substring-search, fzf-tab, F-Sy-H) come from nixpkgs (`home.packages`), not the repo; `.zshrc` sources them from `~/.nix-profile/share`. They update with `nix flake update`. The prompt config stays in `.config/zsh/.p10k.zsh`.
 
-Everything uses **Catppuccin Mocha**:
+Everything except GTK apps uses **Catppuccin Mocha** (GTK: see Fonts and GTK theme):
 
 | What | Where the colors come from |
 |---|---|
@@ -70,6 +70,19 @@ ranger and pygmentize come from Nix (`home.packages`), so they work on any distr
 nix flake update ranger-devicons       # update the ranger icons plugin, then switch
 nix flake update catppuccin-btop       # update the btop theme, then switch
 ```
+
+## Fonts and GTK theme
+
+Set in `home.nix` ("Fonts and GTK theme"), so a new machine gets the same look after the first switch:
+
+| What | Comes from |
+|---|---|
+| GTK theme `Gruvbox-BL-MB-Dark` (+ hdpi/xhdpi) | `.local/share/themes/`, packaged by `home.nix` |
+| Google Sans Flex (GTK, waybar, rofi, swaync) | `.local/share/fonts/GoogleSansFlex/`, packaged by `home.nix` |
+| JetBrainsMono Nerd Font (waybar/swaync icons), Mononoki Nerd Font | nixpkgs `nerd-fonts.*` |
+| Papirus-Dark icons, macOS cursor | nixpkgs (`apple_cursor` is unfree; allowed by name in `flake.nix`) |
+
+`gtk` in `home.nix` writes `~/.gtkrc-2.0`, `gtk-{3,4}.0/settings.ini`, `gtk-4.0/gtk.css` and the dconf `org/gnome/desktop/interface` keys. They're read-only, so **nwg-look can't save any more**: change the theme in `home.nix`. GTK stays Gruvbox because Catppuccin's GTK theme is no longer maintained.
 
 ## Packages: Nix vs pacman
 

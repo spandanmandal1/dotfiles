@@ -29,7 +29,11 @@
     { nixpkgs, home-manager, noisy, ranger-devicons, catppuccin-btop, ... }:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        # only this unfree package is allowed (macOS cursor, used in home.nix gtk.cursorTheme)
+        config.allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "apple_cursor" ];
+      };
     in
     {
       homeConfigurations."spandan" = home-manager.lib.homeManagerConfiguration {

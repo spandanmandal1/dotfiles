@@ -30,6 +30,17 @@ let
     pkgs.runCommand "${id}-${app.version}.AppImage" { } ''
       install -m755 ${pkgs.fetchurl { inherit (app) url hash; }} $out
     '';
+
+  # GTK theme and font kept in the repo (not in nixpkgs in this form), packaged so
+  # GTK/fontconfig find them in ~/.nix-profile/share. See "Fonts and GTK theme" below.
+  gruvboxGtk = pkgs.runCommand "gruvbox-bl-mb-dark-gtk" { } ''
+    mkdir -p $out/share/themes
+    cp -r ${./.local/share/themes}/. $out/share/themes/
+  '';
+  googleSansFlex = pkgs.runCommand "google-sans-flex" { } ''
+    mkdir -p $out/share/fonts/truetype
+    cp -r ${./.local/share/fonts/GoogleSansFlex} $out/share/fonts/truetype/GoogleSansFlex
+  '';
 in
 {
   ##################################################
@@ -112,6 +123,10 @@ in
     sxiv
     zathura
 
+    # fonts (see "Fonts and GTK theme")
+    nerd-fonts.jetbrains-mono   # "JetBrainsMono Nerd Font Propo": icons in waybar and swaync
+    nerd-fonts.mononoki
+
     # pygmentize with Catppuccin styles, for ranger's code previews.
     # Wrapped so only `pygmentize` lands on PATH (not a second python3).
     (pkgs.writeShellScriptBin "pygmentize" ''
@@ -171,6 +186,45 @@ in
   # live link (not the read-only store): the app writes here; .gitignore keeps only settings + timelines
   home.file.".config/timelines".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/timelines";
+
+  ##################################################
+  # Fonts and GTK theme
+  ##################################################
+  # GTK uses Gruvbox (theme files in .local/share/themes); everything else is Catppuccin.
+  # Settings were made with nwg-look before; now they come from here (nwg-look can't save).
+
+  # Nerd Fonts are in home.packages; Google Sans Flex comes in via gtk.font.package.
+  fonts.fontconfig.enable = true;   # lets fontconfig see fonts in ~/.nix-profile
+
+  gtk = {
+    enable = true;
+    theme = { name = "Gruvbox-BL-MB-Dark"; package = gruvboxGtk; };
+    iconTheme = { name = "Papirus-Dark"; package = pkgs.papirus-icon-theme; };
+    cursorTheme = { name = "macOS"; package = pkgs.apple-cursor; size = 24; };
+    font = { name = "Google Sans Flex 24pt"; size = 10; package = googleSansFlex; };
+    colorScheme = "dark";
+    gtk4.theme = config.gtk.theme;   # theme GTK 4 apps too (as the old gtk-4.0/gtk.css links did)
+
+    # the rest of nwg-look's old settings.ini, unchanged
+    gtk3.extraConfig = {
+      gtk-toolbar-style = 3;
+      gtk-toolbar-icon-size = "GTK_ICON_SIZE_LARGE_TOOLBAR";
+      gtk-button-images = 0;
+      gtk-menu-images = 0;
+      gtk-enable-event-sounds = 0;
+      gtk-enable-input-feedback-sounds = 0;
+      gtk-xft-antialias = 1;
+      gtk-xft-hinting = 1;
+      gtk-xft-hintstyle = "hintslight";
+      gtk-xft-rgba = "rgb";
+      gtk-xft-dpi = 122880;
+      gtk-decoration-layout = "icon:minimize,maximize,close";
+      gtk-enable-animations = true;
+      gtk-modules = "colorreload-gtk-module";
+      gtk-primary-button-warps-slider = true;
+      gtk-sound-theme-name = "ocean";
+    };
+  };
 
   ##################################################
   # AppImages (see `appimages` at the top)
