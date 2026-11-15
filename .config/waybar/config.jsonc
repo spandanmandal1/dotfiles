@@ -3,7 +3,6 @@
     "margin-top": 20,
     "modules-center": [
         "clock",
-        "custom/media",
         "hyprland/workspaces",
         "pulseaudio",
         "network",
@@ -66,18 +65,6 @@
     //     "on-scroll-down": "hyprctl dispatch workspace e+1",
     //     "on-scroll-up": "hyprctl dispatch workspace e-1"
     // },
-    "custom/media": {
-        "format": "{}",
-        "escape": true,
-        "return-type": "json",
-        "max-length": 40,
-        "on-click": "playerctl play-pause",
-        "on-click-right": "playerctl stop",
-        "smooth-scrolling-threshold": 1,
-        "on-scroll-up": "playerctl next",
-        "on-scroll-down": "playerctl previous",
-        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
-    },
     "pulseaudio": {
         "format": "{volume}% {icon}",
         "format-bluetooth": "{volume}% ",

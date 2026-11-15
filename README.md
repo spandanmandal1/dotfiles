@@ -44,6 +44,7 @@ hms                                                # check, then switch
 | `zsh -n` on `.zshrc`, `.zshenv`, `aliasrc`, `optionrc` | zsh syntax errors |
 | `bash -n update-appimages.sh` | syntax errors in the updater |
 | `bash -n .config/rofi/launcher.sh` | syntax errors in the rofi launcher |
+| `bash -n .config/waybar/scripts/launch.sh` | syntax errors in the waybar/swaync restart script (Super+R) |
 
 A failed check prints `FAIL` with the error and nothing is switched. Plain `home-manager switch` still works if you need to skip the checks.
 
