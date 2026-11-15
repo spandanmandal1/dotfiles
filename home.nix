@@ -200,7 +200,7 @@ in
     enable = true;
     theme = { name = "Gruvbox-BL-MB-Dark"; package = gruvboxGtk; };
     iconTheme = { name = "Papirus-Dark"; package = pkgs.papirus-icon-theme; };
-    cursorTheme = { name = "macOS"; package = pkgs.apple-cursor; size = 24; };
+    cursorTheme = { name = "Bibata-Modern-Classic"; package = pkgs.bibata-cursors; size = 24; };
     font = { name = "Google Sans Flex 24pt"; size = 10; package = googleSansFlex; };
     gtk4.theme = config.gtk.theme;   # theme GTK 4 apps too (as the old gtk-4.0/gtk.css links did)
     # dark mode as nwg-look set it; not `colorScheme = "dark"`, which also writes
