@@ -202,11 +202,14 @@ in
     iconTheme = { name = "Papirus-Dark"; package = pkgs.papirus-icon-theme; };
     cursorTheme = { name = "macOS"; package = pkgs.apple-cursor; size = 24; };
     font = { name = "Google Sans Flex 24pt"; size = 10; package = googleSansFlex; };
-    colorScheme = "dark";
     gtk4.theme = config.gtk.theme;   # theme GTK 4 apps too (as the old gtk-4.0/gtk.css links did)
+    # dark mode as nwg-look set it; not `colorScheme = "dark"`, which also writes
+    # gtk-interface-color-scheme=2 that GTK 4.24 can't parse (warning in every GTK 4 app)
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
 
     # the rest of nwg-look's old settings.ini, unchanged
     gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
       gtk-toolbar-style = 3;
       gtk-toolbar-icon-size = "GTK_ICON_SIZE_LARGE_TOOLBAR";
       gtk-button-images = 0;
@@ -225,6 +228,9 @@ in
       gtk-sound-theme-name = "ocean";
     };
   };
+
+  # dark mode for GTK 4/libadwaita, Firefox, Electron (read through the portal)
+  dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
   ##################################################
   # AppImages (see `appimages` at the top)
