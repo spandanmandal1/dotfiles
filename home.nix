@@ -6,7 +6,7 @@ let
   # version + url, set hash = "", switch, paste the "got:" hash, switch again.
   appimages = {
     obsidian = {
-      name = "Obsidian (dGPU)";
+      name = "Obsidian";
       version = "1.15.1";
       url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.15.1/Obsidian-1.15.1.AppImage";
       hash = "sha256-UV/0m7Jj0IhBBprcRgAtrpRWLlBB+3dis6Hct74QpRo=";
@@ -15,7 +15,7 @@ let
       categories = [ "Office" ];
     };
     timelines = {
-      name = "Timelines (dGPU)";
+      name = "Timelines";
       version = "0.7.0-alpha.2";
       url = "https://github.com/sreegjl/timelines/releases/download/v0.7.0-alpha.2/Timelines-0.7.0-alpha.2-Setup.AppImage";
       hash = "sha256-7cHfNUlgMIrrM1XH/ANZgq89EXph+8hATPuvtpltKtY=";
@@ -245,7 +245,7 @@ in
 
   xdg.desktopEntries = builtins.mapAttrs (id: app: {
     inherit (app) name mimeType categories;
-    exec = "env DRI_PRIME=1 ${mkAppImage id app} ${app.args}";
+    exec = "${mkAppImage id app} ${app.args}";
     icon = ./assets/icons/${id}.png;
     terminal = false;
   }) appimages;
