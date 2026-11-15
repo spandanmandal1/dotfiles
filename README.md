@@ -24,7 +24,7 @@ dotfiles/
 │   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
 │   └── kitty/           # not linked in home.nix
 ├── applications/        # .desktop files (not linked in home.nix)
-└── .local/share/        # Gruvbox GTK theme + Google Sans Flex, packaged by home.nix
+└── .local/share/fonts/  # Google Sans Flex, packaged by home.nix
 ```
 
 ## Apply changes
@@ -56,7 +56,7 @@ Keep Home Manager config in `home.nix` (one `####` section per topic). Don't spl
 
 zsh plugins (powerlevel10k, zsh-autosuggestions, zsh-history-substring-search, fzf-tab, F-Sy-H) come from nixpkgs (`home.packages`), not the repo; `.zshrc` sources them from `~/.nix-profile/share`. They update with `nix flake update`. The prompt config stays in `.config/zsh/.p10k.zsh`.
 
-Everything except GTK apps uses **Catppuccin Mocha** (GTK: see Fonts and GTK theme):
+Everything except GTK apps (Adwaita-dark, see Fonts and GTK theme) uses **Catppuccin Mocha**:
 
 | What | Where the colors come from |
 |---|---|
@@ -77,12 +77,13 @@ Set in `home.nix` ("Fonts and GTK theme"), so a new machine gets the same look a
 
 | What | Comes from |
 |---|---|
-| GTK theme `Gruvbox-BL-MB-Dark` (+ hdpi/xhdpi) | `.local/share/themes/`, packaged by `home.nix` |
-| Google Sans Flex (GTK, waybar, rofi, swaync) | `.local/share/fonts/GoogleSansFlex/`, packaged by `home.nix` |
+| GTK theme Adwaita-dark (GTK 3 and 4) | built into GTK |
+| GTK font Noto Sans Mono 10 | the distro (pacman `noto-fonts`) |
+| Google Sans Flex (waybar, rofi, swaync) | `.local/share/fonts/GoogleSansFlex/`, packaged by `home.nix` |
 | JetBrainsMono Nerd Font (waybar/swaync icons), Mononoki Nerd Font | nixpkgs `nerd-fonts.*` |
-| Papirus-Dark icons, Bibata-Modern-Classic cursor | nixpkgs (cursor via `home.pointerCursor`: GTK, Hyprland and the rest use it) |
+| Papirus-Dark icons, Adwaita cursor | nixpkgs (cursor via `home.pointerCursor`: GTK, Hyprland and the rest use it) |
 
-`gtk` in `home.nix` writes `~/.gtkrc-2.0`, `gtk-{3,4}.0/settings.ini`, `gtk-4.0/gtk.css` and the dconf `org/gnome/desktop/interface` keys. They're read-only, so **nwg-look can't save any more**: change the theme in `home.nix`. GTK stays Gruvbox because Catppuccin's GTK theme is no longer maintained.
+`gtk` in `home.nix` writes `~/.gtkrc-2.0`, `gtk-{3,4}.0/settings.ini` and the dconf `org/gnome/desktop/interface` keys. On Wayland, GTK apps read the theme, font and cursor from **dconf**, not `settings.ini`. These are read-only, so **nwg-look can't save any more**: change the theme in `home.nix`.
 
 ## Packages: Nix vs pacman
 

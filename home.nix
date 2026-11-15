@@ -31,12 +31,8 @@ let
       install -m755 ${pkgs.fetchurl { inherit (app) url hash; }} $out
     '';
 
-  # GTK theme and font kept in the repo (not in nixpkgs in this form), packaged so
-  # GTK/fontconfig find them in ~/.nix-profile/share. See "Fonts and GTK theme" below.
-  gruvboxGtk = pkgs.runCommand "gruvbox-bl-mb-dark-gtk" { } ''
-    mkdir -p $out/share/themes
-    cp -r ${./.local/share/themes}/. $out/share/themes/
-  '';
+  # Google Sans Flex is kept in the repo (not in nixpkgs on its own), packaged so
+  # fontconfig finds it in ~/.nix-profile/share. See "Fonts and GTK theme" below.
   googleSansFlex = pkgs.runCommand "google-sans-flex" { } ''
     mkdir -p $out/share/fonts/truetype
     cp -r ${./.local/share/fonts/GoogleSansFlex} $out/share/fonts/truetype/GoogleSansFlex
@@ -126,6 +122,7 @@ in
     # fonts (see "Fonts and GTK theme")
     nerd-fonts.jetbrains-mono   # "JetBrainsMono Nerd Font Propo": icons in waybar and swaync
     nerd-fonts.mononoki
+    googleSansFlex              # waybar, rofi, swaync (from .local/share/fonts)
 
     # pygmentize with Catppuccin styles, for ranger's code previews.
     # Wrapped so only `pygmentize` lands on PATH (not a second python3).
@@ -190,19 +187,20 @@ in
   ##################################################
   # Fonts and GTK theme
   ##################################################
-  # GTK uses Gruvbox (theme files in .local/share/themes); everything else is Catppuccin.
-  # Settings were made with nwg-look before; now they come from here (nwg-look can't save).
+  # GTK apps use Adwaita-dark (built into GTK); everything else is Catppuccin.
+  # On Wayland, GTK reads theme/font/cursor from dconf (org/gnome/desktop/interface),
+  # which this also writes. Settings come from here, so nwg-look can't save.
 
-  # Nerd Fonts are in home.packages; Google Sans Flex comes in via gtk.font.package.
+  # fonts are in home.packages ("# fonts")
   fonts.fontconfig.enable = true;   # lets fontconfig see fonts in ~/.nix-profile
 
   gtk = {
     enable = true;
-    theme = { name = "Gruvbox-BL-MB-Dark"; package = gruvboxGtk; };
+    theme = { name = "Adwaita-dark"; package = null; };      # built into GTK 3
     iconTheme = { name = "Papirus-Dark"; package = pkgs.papirus-icon-theme; };
     # cursor: set by home.pointerCursor below (covers GTK too)
-    font = { name = "Google Sans Flex 24pt"; size = 10; package = googleSansFlex; };
-    gtk4.theme = config.gtk.theme;   # theme GTK 4 apps too (as the old gtk-4.0/gtk.css links did)
+    font = { name = "Noto Sans Mono"; size = 10; };            # Noto from the distro (pacman: noto-fonts)
+    gtk4.theme = null;   # GTK 4 has its own Adwaita; no gtk-4.0/gtk.css theme import
     # dark mode as nwg-look set it; not `colorScheme = "dark"`, which also writes
     # gtk-interface-color-scheme=2 that GTK 4.24 can't parse (warning in every GTK 4 app)
     gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
@@ -233,8 +231,8 @@ in
   # (Hyprland and other apps use the "default" theme), plus XCURSOR_THEME in the shell.
   home.pointerCursor = {
     enable = true;
-    name = "Bibata-Modern-Classic";
-    package = pkgs.bibata-cursors;
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
     size = 24;
     gtk.enable = true;
   };
