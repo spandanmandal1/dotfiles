@@ -24,4 +24,4 @@ hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 
 -- Screenshort
-hl.env("HYPRSHOT_DIR", "/home/spandan/Pictures/screenshorts")
+hl.env("HYPRSHOT_DIR", os.getenv("HOME") .. "/Pictures/screenshorts")
