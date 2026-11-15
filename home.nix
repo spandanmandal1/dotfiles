@@ -200,7 +200,7 @@ in
     enable = true;
     theme = { name = "Gruvbox-BL-MB-Dark"; package = gruvboxGtk; };
     iconTheme = { name = "Papirus-Dark"; package = pkgs.papirus-icon-theme; };
-    cursorTheme = { name = "Bibata-Modern-Classic"; package = pkgs.bibata-cursors; size = 24; };
+    # cursor: set by home.pointerCursor below (covers GTK too)
     font = { name = "Google Sans Flex 24pt"; size = 10; package = googleSansFlex; };
     gtk4.theme = config.gtk.theme;   # theme GTK 4 apps too (as the old gtk-4.0/gtk.css links did)
     # dark mode as nwg-look set it; not `colorScheme = "dark"`, which also writes
@@ -227,6 +227,16 @@ in
       gtk-primary-button-warps-slider = true;
       gtk-sound-theme-name = "ocean";
     };
+  };
+
+  # Cursor everywhere: GTK settings, ~/.local/share/icons/default and ~/.icons/default
+  # (Hyprland and other apps use the "default" theme), plus XCURSOR_THEME in the shell.
+  home.pointerCursor = {
+    enable = true;
+    name = "Bibata-Modern-Classic";
+    package = pkgs.bibata-cursors;
+    size = 24;
+    gtk.enable = true;
   };
 
   # dark mode for GTK 4/libadwaita, Firefox, Electron (read through the portal)

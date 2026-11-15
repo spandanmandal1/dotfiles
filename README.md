@@ -80,7 +80,7 @@ Set in `home.nix` ("Fonts and GTK theme"), so a new machine gets the same look a
 | GTK theme `Gruvbox-BL-MB-Dark` (+ hdpi/xhdpi) | `.local/share/themes/`, packaged by `home.nix` |
 | Google Sans Flex (GTK, waybar, rofi, swaync) | `.local/share/fonts/GoogleSansFlex/`, packaged by `home.nix` |
 | JetBrainsMono Nerd Font (waybar/swaync icons), Mononoki Nerd Font | nixpkgs `nerd-fonts.*` |
-| Papirus-Dark icons, Bibata-Modern-Classic cursor | nixpkgs |
+| Papirus-Dark icons, Bibata-Modern-Classic cursor | nixpkgs (cursor via `home.pointerCursor`: GTK, Hyprland and the rest use it) |
 
 `gtk` in `home.nix` writes `~/.gtkrc-2.0`, `gtk-{3,4}.0/settings.ini`, `gtk-4.0/gtk.css` and the dconf `org/gnome/desktop/interface` keys. They're read-only, so **nwg-look can't save any more**: change the theme in `home.nix`. GTK stays Gruvbox because Catppuccin's GTK theme is no longer maintained.
 
