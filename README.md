@@ -47,7 +47,7 @@ hms                                                # check, then switch
 
 A failed check prints `FAIL` with the error and nothing is switched. Plain `home-manager switch` still works if you need to skip the checks.
 
-`~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exceptions: `timelines`, `btop/btop.conf` and `kitty` (`kitten themes` writes there), which are live-linked so the apps can write them; edits through `~/.config` land in this repo.)
+Always edit here, never in `~/.config`. Most of `~/.config` is a read-only copy in the Nix store (run `hms` after editing). `timelines`, `btop/btop.conf` and `kitty` are live-linked: `~/.config/<name>` *is* the folder here, so edits work without `hms`, and anything the app writes itself (Timelines data, btop settings, `kitten themes`) shows up in `git status` here.
 
 Keep Home Manager config in `home.nix` (one `####` section per topic). Don't split it into extra `.nix` modules.
 
