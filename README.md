@@ -53,6 +53,8 @@ Keep Home Manager config in `home.nix` (one `####` section per topic). Don't spl
 
 ## Shell environment and colors
 
+zsh startup: `~/.zshenv` (written by `home.nix`) sets `ZDOTDIR=~/.config/zsh` and sources `.config/zsh/.zshenv`; zsh then reads `.config/zsh/.zshrc` in interactive shells. No `programs.zsh`: the repo's files are the whole config. `~/.zshenv` also runs in SDDM's login shell that starts Hyprland, so keep it silent and error-free (a mistake there can break graphical login).
+
 `home.sessionVariables` in `home.nix` reach zsh through `.config/zsh/.zshenv`, which sources `hm-session-vars.sh`. Open a new terminal after a switch to pick up changes.
 
 zsh plugins (powerlevel10k, zsh-autosuggestions, zsh-history-substring-search, fzf-tab, F-Sy-H) come from nixpkgs (`home.packages`), not the repo; `.zshrc` sources them from `~/.nix-profile/share`. They update with `nix flake update`. The prompt config stays in `.config/zsh/.p10k.zsh`.

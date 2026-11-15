@@ -83,6 +83,7 @@ in
     zsh-history-substring-search
     zsh-fzf-tab
     zsh-f-sy-h
+    nix-zsh-completions   # tab completion for nix-build, nix-shell, nix-collect-garbage...
 
     # CLI tools moved from pacman (2026-11-14). Kept on pacman: hyprshot (Nix build
     # bundles its own Hyprland), nodejs/npm (npm -g can't write to the Nix store).
@@ -148,14 +149,14 @@ in
   # ZSH
   ##################################################
 
-  programs.zsh = {
-    enable = true;
-    dotDir = "${config.xdg.configHome}/zsh";
-  };
-
-  home.file.".zshrc".text = ''
+  # zsh reads ~/.zshenv first (terminals, scripts, and SDDM's login shell that starts
+  # Hyprland). Setting ZDOTDIR there makes zsh read the rest from .config/zsh:
+  #   ~/.zshenv -> .config/zsh/.zshenv (session vars) -> .config/zsh/.zshrc (interactive)
+  # zsh doesn't re-read .zshenv after ZDOTDIR changes, so it is sourced here.
+  # Keep this silent: it runs at graphical login and p10k's instant prompt warns on output.
+  home.file.".zshenv".text = ''
     export ZDOTDIR="$HOME/.config/zsh"
-    source "$ZDOTDIR/.zshrc"
+    source "$ZDOTDIR/.zshenv"
   '';
 
   ##################################################
@@ -169,7 +170,6 @@ in
   home.file.".config/swaync".source = ./.config/swaync;
   home.file.".config/waybar".source = ./.config/waybar;
   home.file.".config/zsh".source = ./.config/zsh;
-  home.file.".p10k.zsh".source = ./.config/zsh/.p10k.zsh;
   home.file.".config/alacritty".source = ./.config/alacritty;
   home.file.".config/ranger/rc.conf".source = ./.config/ranger/rc.conf;
   home.file.".config/ranger/plugins/__init__.py".text = "";

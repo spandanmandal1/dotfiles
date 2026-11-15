@@ -1,4 +1,4 @@
-export ZDOTDIR="$HOME/.config/zsh"
+# ZDOTDIR is set in ~/.zshenv (home.nix, ZSH section)
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of this file.
 # Initialization code that may require console input (password prompts, [y/n]
