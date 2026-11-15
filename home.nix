@@ -183,6 +183,10 @@ in
   home.file.".config/timelines".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/timelines";
 
+  # kitty (backup terminal; Alacritty is the default): live link, because `kitten themes` writes here
+  home.file.".config/kitty".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/.config/kitty";
+
   ##################################################
   # Fonts and GTK theme
   ##################################################
@@ -238,6 +242,13 @@ in
 
   # dark mode for GTK 4/libadwaita, Firefox, Electron (read through the portal)
   dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+
+  # terminal for GNOME/GTK apps' "open in terminal" (was xdg-terminal-exec, not installed).
+  # Schema org.gnome.desktop.default-applications.terminal lives at this path (no "default-").
+  dconf.settings."org/gnome/desktop/applications/terminal" = {
+    exec = "alacritty";
+    exec-arg = "-e";
+  };
 
   ##################################################
   # AppImages (see `appimages` at the top)

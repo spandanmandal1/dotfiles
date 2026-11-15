@@ -22,7 +22,7 @@ dotfiles/
 │   ├── btop/            # btop.conf, live-linked (btop rewrites it on exit); theme from the flake input
 │   ├── timelines/       # live-linked (writable); git keeps only settings + timelines/
 │   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
-│   └── kitty/           # not linked in home.nix
+│   └── kitty/           # backup terminal (Alacritty is the default), live-linked
 └── .local/share/fonts/  # Google Sans Flex, packaged by home.nix
 ```
 
@@ -47,7 +47,7 @@ hms                                                # check, then switch
 
 A failed check prints `FAIL` with the error and nothing is switched. Plain `home-manager switch` still works if you need to skip the checks.
 
-`~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exceptions: `timelines` and `btop/btop.conf`, which are live-linked so the apps can write them; edits through `~/.config` land in this repo.)
+`~/.config/*` is read-only (Nix store). Always edit here, never in `~/.config`. (Exceptions: `timelines`, `btop/btop.conf` and `kitty` (`kitten themes` writes there), which are live-linked so the apps can write them; edits through `~/.config` land in this repo.)
 
 Keep Home Manager config in `home.nix` (one `####` section per topic). Don't split it into extra `.nix` modules.
 
@@ -64,6 +64,7 @@ Everything except GTK apps (Adwaita-dark, see Fonts and GTK theme) uses **Catppu
 | What | Where the colors come from |
 |---|---|
 | Terminal, shell and most TUIs (ls, git, fzf, newsboat, ranger's file list) | Alacritty palette in `.config/alacritty/alacritty.toml` |
+| kitty (backup terminal) | `.config/kitty/themes/Catppuccin-Mocha.conf`, included by `kitty.conf` |
 | ranger code previews | `PYGMENTIZE_STYLE=catppuccin-mocha` (pygmentize's default `autumn` is a light theme; its dark blue disappears here) |
 | btop | `color_theme = "catppuccin_mocha"`, theme file from the `catppuccin-btop` flake input |
 
