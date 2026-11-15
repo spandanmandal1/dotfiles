@@ -12,6 +12,7 @@ hl.on("hyprland.start", function()
     -- hl.exec_cmd("~/.config/waybar/scripts/launch.sh")
     hl.exec_cmd("awww-daemon")
     hl.exec_cmd("waybar")
+    hl.exec_cmd("swaync") -- notifications; from Nix, nothing else starts it (Super+R restarts both)
 
     -- Clipboard
     hl.exec_cmd("wl-paste --type text --watch cliphist store")  -- Stores only text data

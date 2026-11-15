@@ -11,9 +11,9 @@ done
 pgrep waybar >/dev/null && pkill -9 waybar
 waybar &
 
-# swaync: same idea. It can be pacman's (process "swaync", started by D-Bus/systemd)
-# or Nix's (process ".swaync-wrapped", started from PATH); the pattern matches both
-# but not swaync-client. systemd may log the D-Bus one as "failed" when killed (harmless).
+# swaync: same idea. It comes from Nix and is started by Hyprland autostart and this
+# script (no systemd/D-Bus auto-start). Its process is ".swaync-wrapped"; the pattern
+# also matches a plain "swaync" (e.g. a distro package), but not swaync-client.
 swaync_re='^\.?swaync(-wrapped)?$'
 pkill "$swaync_re"
 for _ in $(seq 20); do
