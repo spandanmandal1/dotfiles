@@ -95,7 +95,7 @@ Command-line tools come from Nix (`home.packages` in `home.nix`), so they work o
 
 - kernel, drivers, firmware, boot, and root/system services (NetworkManager, bluez, pipewire, docker, sddm, tlp, cups)
 - Hyprland and its packages (see Updates), plus `hyprshot`, whose Nix build bundles its own Hyprland
-- GUI apps that need GPU acceleration (from Nix on Arch they'd need nixGL)
+- GUI apps that need GPU acceleration (from Nix on Arch they'd need nixGL), e.g. Firefox: `BROWSER=firefox` and the `firefox-dgpu.desktop` launcher use pacman's
 - anything not open source (e.g. terraform)
 - `nodejs`/`npm` (with Nix, `npm install -g` can't write to the store)
 - `zsh` (login shell and terminals use `/usr/bin/zsh`)

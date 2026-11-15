@@ -69,7 +69,6 @@ in
     fastfetch
     fzf
     jq
-    firefox
     rofi
     waybar
     swaynotificationcenter
