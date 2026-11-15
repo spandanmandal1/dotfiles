@@ -23,7 +23,6 @@ dotfiles/
 │   ├── timelines/       # live-linked (writable); git keeps only settings + timelines/
 │   ├── noisy/           # config.json for the noisy service (read from the store, not linked)
 │   └── kitty/           # not linked in home.nix
-├── applications/        # .desktop files (not linked in home.nix)
 └── .local/share/fonts/  # Google Sans Flex, packaged by home.nix
 ```
 
@@ -95,12 +94,20 @@ Command-line tools come from Nix (`home.packages` in `home.nix`), so they work o
 
 - kernel, drivers, firmware, boot, and root/system services (NetworkManager, bluez, pipewire, docker, sddm, tlp, cups)
 - Hyprland and its packages (see Updates), plus `hyprshot`, whose Nix build bundles its own Hyprland
-- GUI apps that need GPU acceleration (from Nix on Arch they'd need nixGL), e.g. Firefox: `BROWSER=firefox` and the `firefox-dgpu.desktop` launcher use pacman's
+- GUI apps that need GPU acceleration (from Nix on Arch they'd need nixGL), e.g. Firefox (`BROWSER=firefox` uses pacman's)
 - anything not open source (e.g. terraform)
 - `nodejs`/`npm` (with Nix, `npm install -g` can't write to the store)
 - `zsh` (login shell and terminals use `/usr/bin/zsh`)
 
 After moving a tool to Nix, the pacman copy can be removed with `sudo pacman -Rs <name>`.
+
+## GPU
+
+Apps run on the iGPU (the dGPU sleeps when unused). There are no dGPU launchers: they kept the dGPU awake for light apps (mostly Obsidian) and only fit this laptop. For heavy work, start the app on the dGPU from a terminal:
+
+```bash
+DRI_PRIME=1 kdenlive          # Mesa (AMD/Intel) hybrid; NVIDIA uses prime-run instead
+```
 
 ## Hyprland
 
@@ -133,7 +140,7 @@ systemctl --user stop noisy            # pause until next login/switch
 
 ## AppImages
 
-Declared in `home.nix` (`appimages` at the top): Nix downloads each pinned AppImage (hash-checked) and creates a dGPU launcher (`DRI_PRIME=1`). Icons are in `assets/icons/`. The host needs `fuse2` from its own package manager.
+Declared in `home.nix` (`appimages` at the top): Nix downloads each pinned AppImage (hash-checked) and creates a launcher. Icons are in `assets/icons/`. The host needs `fuse2` from its own package manager.
 
 Updates: a monthly timer runs `./update-appimages.sh` (Obsidian → latest release, Timelines → second-newest, incl. pre-releases). It bumps `home.nix`, switches, commits and pushes, then sends a notification. It skips the run if the repo has uncommitted changes.
 
@@ -153,7 +160,7 @@ Add an AppImage: add an entry to `appimages` in `home.nix`, an icon at `assets/i
 
 Why it's set up this way:
 
-- **Raw AppImages, not nixpkgs / `appimageTools`.** Outside NixOS those use Nix's Mesa and need nixGL, which breaks the `DRI_PRIME=1` dGPU launchers. A raw AppImage uses the host's GPU drivers.
+- **Raw AppImages, not nixpkgs / `appimageTools`.** Outside NixOS those use Nix's Mesa and need nixGL. A raw AppImage uses the host's GPU drivers.
 - **Pinned version + hash.** Nix needs the hash before downloading, and pinning makes every machine get the same file. The script handles the "find the newest" part.
 - **Timelines runs one release behind (N-1).** It's alpha software, so a new release gets time to settle first. Its built-in updater can't replace the read-only store file, so updates only come through the script.
 - **Obsidian uses latest.** It updates itself inside `~/.config/obsidian`, so the pinned installer version barely matters.
