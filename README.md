@@ -102,6 +102,24 @@ Command-line tools come from Nix (`home.packages` in `home.nix`), so they work o
 
 After moving a tool to Nix, the pacman copy can be removed with `sudo pacman -Rs <name>`.
 
+## Default apps
+
+`xdg.mimeApps` in `home.nix` ("Default apps") writes `~/.config/mimeapps.list`: which app opens which file or link. It's read-only, so "set as default" in Thunar or Firefox can't save; change it in `home.nix`.
+
+| Files / links | App |
+|---|---|
+| Web links, HTML, XML/RSS, JSON, GIF/SVG/AVIF | Firefox |
+| PNG, JPEG, WebP, BMP, TIFF | sxiv |
+| Video, audio, partial downloads | mpv (music library: mpd + ncmpcpp) |
+| Text, Markdown, code, shell scripts | vim in Alacritty (`vim-alacritty.desktop`; scripts open, never run) |
+| PDF / EPUB | zathura |
+| Folders | Thunar |
+| `mailto:`, email | Thunderbird |
+| Magnet, `.torrent` | Transmission |
+| `obsidian://`, `tg://`, `claude-cli://` | Obsidian, Telegram, Claude Code |
+
+Types not listed use what the installed apps register (e.g. LibreOffice for Office files, Foliate for MOBI/comics). ZIP/TAR/7z are kept away from zathura's comic reader; there's no archive app.
+
 ## GPU
 
 Apps run on the iGPU (the dGPU sleeps when unused). There are no dGPU launchers: they kept the dGPU awake for light apps (mostly Obsidian) and only fit this laptop. For heavy work, start the app on the dGPU from a terminal:

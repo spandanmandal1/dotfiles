@@ -251,6 +251,71 @@ in
   };
 
   ##################################################
+  # Default apps (which app opens which file / link)
+  ##################################################
+  # Writes ~/.config/mimeapps.list (read-only: "set as default" in apps can't save;
+  # change defaults here). Types not listed fall back to what installed apps register.
+
+  # Text files open in vim inside Alacritty (hidden from rofi; vim itself is listed there).
+  # A plain file, because xdg.desktopEntries is already set by the AppImages section.
+  xdg.dataFile."applications/vim-alacritty.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=Vim (Alacritty)
+    Exec=alacritty -e vim %F
+    Icon=vim
+    Terminal=false
+    NoDisplay=true
+    MimeType=text/plain;
+  '';
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications =
+      let
+        apps = app: types: builtins.listToAttrs (map (t: { name = t; value = app; }) types);
+      in
+      apps "firefox.desktop" [
+        "x-scheme-handler/http" "x-scheme-handler/https" "x-scheme-handler/chrome"
+        "text/html" "application/xhtml+xml" "application/x-extension-htm"
+        "application/x-extension-html" "application/x-extension-shtml"
+        "application/x-extension-xhtml" "application/x-extension-xht"
+        "application/xml" "text/xml" "application/rss+xml" "application/rdf+xml"
+        "application/json" "image/gif" "image/svg+xml" "image/avif"
+      ]
+      // apps "sxiv.desktop" [ "image/png" "image/jpeg" "image/jpg" "image/webp" "image/bmp" "image/tiff" ]
+      // apps "mpv.desktop" [
+        "video/mp4" "video/webm" "video/x-matroska" "video/quicktime" "video/x-msvideo"
+        "audio/mpeg" "audio/flac" "audio/ogg" "audio/opus" "audio/webm" "audio/x-wav"
+        "audio/aac" "audio/mp4" "audio/x-m4a"
+        # partial/unknown downloads: lets mpv stream a file that is still downloading
+        "application/octet-stream" "application/x-zerosize" "application/x-partial-download"
+      ]
+      // apps "vim-alacritty.desktop" [
+        "text/plain" "text/markdown" "text/x-python" "text/x-shellscript"
+        "application/x-shellscript"   # open scripts to read, never run them on double-click
+        "text/x-csrc" "text/x-go" "application/javascript" "text/css"
+        "application/x-yaml" "application/toml"
+      ]
+      // apps "org.pwmt.zathura-pdf-mupdf.desktop" [ "application/pdf" ]
+      // apps "org.pwmt.zathura.desktop" [ "application/epub+zip" ]
+      // apps "libreoffice-calc.desktop" [ "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ]
+      // apps "thunar.desktop" [ "inode/directory" ]
+      // apps "org.mozilla.Thunderbird.desktop" [ "x-scheme-handler/mailto" "x-scheme-handler/mid" "message/rfc822" ]
+      // apps "transmission-gtk.desktop" [ "x-scheme-handler/magnet" "application/x-bittorrent" ]
+      // apps "org.telegram.desktop.desktop" [ "x-scheme-handler/tg" "x-scheme-handler/tonsite" ]
+      // apps "obsidian.desktop" [ "x-scheme-handler/obsidian" ]
+      // apps "claude-code-url-handler.desktop" [ "x-scheme-handler/claude-cli" ];
+
+    # No archive app installed: don't open ZIP/TAR/7z in zathura's comic reader
+    associations.removed = {
+      "application/zip" = "org.pwmt.zathura-cb.desktop";
+      "application/x-tar" = "org.pwmt.zathura-cb.desktop";
+      "application/x-7z-compressed" = "org.pwmt.zathura-cb.desktop";
+    };
+  };
+
+  ##################################################
   # AppImages (see `appimages` at the top)
   ##################################################
 
