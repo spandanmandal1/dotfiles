@@ -43,6 +43,7 @@ hms                                                # check, then switch
 | `Hyprland --verify-config` on the repo's `hyprland.lua` | Lua errors in the Hyprland config |
 | `zsh -n` on `.zshrc`, `.zshenv`, `aliasrc`, `optionrc` | zsh syntax errors |
 | `bash -n update-appimages.sh` | syntax errors in the updater |
+| `bash -n .config/rofi/launcher.sh` | syntax errors in the rofi launcher |
 
 A failed check prints `FAIL` with the error and nothing is switched. Plain `home-manager switch` still works if you need to skip the checks.
 

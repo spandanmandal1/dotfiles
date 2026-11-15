@@ -30,6 +30,7 @@ for f in .config/zsh/.zshrc .config/zsh/.zshenv .config/zsh/aliasrc .config/zsh/
   run "zsh $f" zsh -n "$f"
 done
 run "update-appimages.sh" bash -n update-appimages.sh
+run "rofi/launcher.sh" bash -n .config/rofi/launcher.sh
 
 if [ $fail -eq 0 ]; then
   echo "All checks passed."
